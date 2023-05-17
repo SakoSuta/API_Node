@@ -20,7 +20,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   posts Post[]
-  subscriptions Subscription[]
+  subscriptions Subscriptions[]
 
 }
 
@@ -50,7 +50,7 @@ model Plan {
   price Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  subscriptions Subscription[]
+  subscriptions Subscriptions[]
 }
 
 model PromoCode {
