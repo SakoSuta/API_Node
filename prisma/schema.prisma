@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  name String
+  pseudo String 
+  email String  @unique
+  password String
+  isAdmin Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts Post[]
+  subscriptions Subscription[]
+
+}
+
+model Subscriptions {
+  id    Int     @id @default(autoincrement())
+  userId Int  @unique
+  planId Int  @unique
+  startDate DateTime
+  endDate DateTime?
+  user User @relation(fields: [userId], references: [id])
+  plan Plan @relation(fields: [planId], references: [id])
+}
+
+model Post {
+  id    Int     @id @default(autoincrement())
+  authorId Int  @unique
+  title String
+  body String
+  publishedAt DateTime
+  updatedAt DateTime
+  author User @relation(fields: [authorId], references: [id])
+}
+
+model Plan {
+  id    Int     @id @default(autoincrement())
+  name String
+  price Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  subscriptions Subscription[]
+}
+
+model PromoCode {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
+  discount  Float
+  startDate DateTime
+  endDate   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
