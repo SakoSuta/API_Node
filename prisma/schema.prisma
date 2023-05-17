@@ -48,6 +48,7 @@ model Plan {
   id    Int     @id @default(autoincrement())
   name String
   price Int
+  slug String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   subscriptions Subscriptions[]
