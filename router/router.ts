@@ -1,11 +1,10 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
+import UserController from '../controllers/UserController';
+import PlanController from '../controllers/PlanController';
+import SubscriptionsController from '../controllers/SubscriptionsController';
+import PromoCodeController from '../controllers/PromoCodeController';
 
-// Importez les contrôleurs appropriés pour chaque entité
-const UserController = require('./controllers/UserController');
-const PlanController = require('./controllers/PlanController');
-const SubscriptionsController = require('./controllers/SubscriptionsController');
-const PromoCodeController = require('./controllers/PromoCodeController');
+const router: Router = Router();
 
 // Routes pour User
 router.get('/users', UserController.getAllUsers);
@@ -35,4 +34,4 @@ router.post('/promo', PromoCodeController.createPromoCode);
 router.put('/promo/:id', PromoCodeController.updatePromoCode);
 router.delete('/promo/:id', PromoCodeController.deletePromoCode);
 
-module.exports = router;
+export default router;
