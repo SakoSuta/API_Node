@@ -3,6 +3,7 @@ import UserController from '../controllers/UserController';
 import PlanController from '../controllers/PlanController';
 import SubscriptionsController from '../controllers/SubscriptionsController';
 import PromoCodeController from '../controllers/PromoCodeController';
+import PostController from '../controllers/PostController';
 
 const router = Router();
 
@@ -33,5 +34,12 @@ router.get('/promo/:id', PromoCodeController.getPromoCodeById);
 router.post('/promo', PromoCodeController.createPromoCode);
 router.put('/promo/:id', PromoCodeController.updatePromoCode);
 router.delete('/promo/:id', PromoCodeController.deletePromoCode);
+
+// Routes pour Post
+router.get('/posts', PostController.getAllPosts);
+router.get('/posts/:id', PostController.getPostById);
+router.post('/posts', PostController.createPost);
+router.put('/posts/:id', PostController.updatePost);
+router.delete('/posts/:id', PostController.deletePost);
 
 export default router;
