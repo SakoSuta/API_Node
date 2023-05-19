@@ -1,12 +1,12 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const routes = require('./router/router');
+import router from './routes/router';
 
 // les middlewares nécessaires
 app.use(express.json());
 
 // Montez les routes
-app.use('/', routes);
+app.use('/', router);
 
 // Démarrez le serveur
 const port = 3000; // Port sur lequel le serveur écoutera les requêtes

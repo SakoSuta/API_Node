@@ -4,7 +4,7 @@ import PlanController from '../controllers/PlanController';
 import SubscriptionsController from '../controllers/SubscriptionsController';
 import PromoCodeController from '../controllers/PromoCodeController';
 
-const router: Router = Router();
+const router = Router();
 
 // Routes pour User
 router.get('/users', UserController.getAllUsers);
