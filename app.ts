@@ -6,7 +6,7 @@ import router from './routes/router';
 app.use(express.json());
 
 // Montez les routes
-app.use('/', router);
+app.use('/api', router);
 
 // Démarrez le serveur
 const port = 3000; // Port sur lequel le serveur écoutera les requêtes
