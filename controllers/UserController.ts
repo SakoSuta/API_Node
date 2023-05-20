@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { hash } from 'argon2';
 
 const prisma = new PrismaClient();
 
@@ -33,12 +34,13 @@ const UserController = {
     try {
         const users = await prisma.user.findMany();
         const { name, pseudo, email, password } = req.body;
+        const hashedPassword = await hash(password);
         if (users.length === 0){
             const isAdmin = true;
-            const user = await prisma.user.create({ data: { name, pseudo, email, password, isAdmin } });
+            const user = await prisma.user.create({ data: { name, pseudo, email, password:hashedPassword, isAdmin } });
             res.json({user, message: 'User (Admin) successfully created.'});
         }else{
-            const user = await prisma.user.create({ data: { name, pseudo, email, password } });
+            const user = await prisma.user.create({ data: { name, pseudo, email, password:hashedPassword } });
             res.json({user, message: 'User successfully created.'});
         }
       } catch (error: any) {
