@@ -8,8 +8,8 @@ const CategoryController = {
     // Récupérez tous les Catégories dans la base de données
   },
 
-  getCategoryById: async (req: Request, res: Response) => {
-    // Récupérez un Catégorie par son ID
+  getCategoryBySlug: async (req: Request, res: Response) => {
+    // Récupérez un Catégorie par son Slug
   },
 
   createCategory: async (req: Request, res: Response) => {

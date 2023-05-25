@@ -8,8 +8,8 @@ const GameController = {
     // Récupérez tous les Jeux dans la base de données
   },
 
-  getGameById: async (req: Request, res: Response) => {
-    // Récupérez un Jeu par son ID
+  getGameBySlug: async (req: Request, res: Response) => {
+    // Récupérez un Jeu par son Slug
   },
 
   createGame: async (req: Request, res: Response) => {

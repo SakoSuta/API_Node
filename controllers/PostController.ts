@@ -8,8 +8,8 @@ const PostController = {
     // Récupérez tous les Posts dans la base de données
   },
 
-  getPostById: async (req: Request, res: Response) => {
-    // Récupérez un Post par son ID
+  getPostBySlug: async (req: Request, res: Response) => {
+    // Récupérez un Post par son Slug
   },
 
   createPost: async (req: Request, res: Response) => {

@@ -17,6 +17,7 @@ model User {
   email String  @unique
   password String
   isAdmin Boolean @default(false)
+  uuid String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   posts Post[]
@@ -28,6 +29,7 @@ model Subscriptions {
   id    Int     @id @default(autoincrement())
   userId Int  @unique
   planId Int  @unique
+  uuid String @unique
   startDate DateTime
   endDate DateTime?
   user User @relation(fields: [userId], references: [id])
@@ -39,8 +41,12 @@ model Post {
   authorId Int  @unique
   title String
   body String
+  Image String
+  Actif Boolean @default(true)
+  slug String @unique
   publishedAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   author User @relation(fields: [authorId], references: [id])
 }
 
@@ -67,6 +73,7 @@ model PromoCode {
 model Category {
   id    Int     @id @default(autoincrement())
   name String @unique
+  slug String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   games Game[]
@@ -76,6 +83,7 @@ model Game {
   id          Int      @id @default(autoincrement())
   name        String
   categoryId  Int
+  slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   category    Category @relation(fields: [categoryId], references: [id])

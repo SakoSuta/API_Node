@@ -8,8 +8,8 @@ const SubscriptionsController = {
     // Récupérez tous les Abonnées dans la base de données
   },
 
-  getSubscriptionById: async (req: Request, res: Response) => {
-    // Récupérez un Abonnée par son ID
+  getSubscriptionByUuid: async (req: Request, res: Response) => {
+    // Récupérez un Abonnée par son UUID
   },
 
   createSubscription: async (req: Request, res: Response) => {

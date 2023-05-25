@@ -6,10 +6,26 @@ const prisma = new PrismaClient();
 const PlanController = {
   getAllPlans: async (req: Request, res: Response) => {
     // Récupérez tous les Plans dans la base de données
+    try{
+      const plans = await prisma.plan.findMany();
+      res.json(plans);
+    }catch (error){
+      res.status(500).json({ error: 'An error occurred while retrieving plans.' });
+    }
   },
 
-  getPlanById: async (req: Request, res: Response) => {
-    // Récupérez un Plan par son ID
+  getPlanBySlug: async (req: Request, res: Response) => {
+    // Récupérez un Plan par son Slug
+    try{
+      const { slug } = req.params;
+      const plan = await prisma.plan.findUnique({ where: { slug } });
+      if (!plan) {
+        return res.status(404).json({ error: 'Plan not found.' });
+      }
+      res.json(plan);
+    }catch (error){
+      res.status(500).json({ error: 'An error occurred while retrieving the plan.' });
+    }
   },
 
   createPlan: async (req: Request, res: Response) => {
