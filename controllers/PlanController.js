@@ -44,7 +44,7 @@ const PlanController = {
         data: {
           name,
           slug,
-          price,
+          price: parseFloat(price),
           category: { 
             connect: category.map((categoryId) => ({
               id: parseInt(categoryId),
@@ -56,6 +56,9 @@ const PlanController = {
     } catch (error) {
       // Gérer les erreurs
       console.error(error);
+      if(error.code === 'P2002' && error.meta?.target?.includes('name')){
+        res.status(400).json({ error: 'This name is already used by another plan.' });
+      }
       res.status(500).json({ error: 'An error occurred while creating the plan.' });
     }
   },

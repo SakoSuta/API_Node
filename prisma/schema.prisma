@@ -51,7 +51,7 @@ model Post {
 model Plan {
   id    Int     @id @default(autoincrement())
   name String @unique
-  price Int
+  price Float
   slug String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
