@@ -1,12 +1,3 @@
-// import { Router } from 'express';
-// import UserController from '../controllers/UserController';
-// import PlanController from '../controllers/PlanController';
-// import SubscriptionsController from '../controllers/SubscriptionsController';
-// import PromoCodeController from '../controllers/PromoCodeController';
-// import PostController from '../controllers/PostController';
-// import CategoryController from '../controllers/CategoryController';
-// import GameController from '../controllers/GameController';
-
 const { Router } = require('express');
 const UserController = require('../controllers/UserController');
 const PlanController = require('../controllers/PlanController');
@@ -33,7 +24,7 @@ router.put('/plans/:slug', PlanController.updatePlan);
 router.delete('/plans/:slug', PlanController.deletePlan);
 
 // Routes pour Subscriptions
-router.get('/subscriptions', SubscriptionsController.getAllSubscriptions);
+router.get('/', SubscriptionsController.getAllSubscriptions);
 router.get('/subscriptions/:uuid', SubscriptionsController.getSubscriptionByUuid);
 router.post('/subscriptions', SubscriptionsController.createSubscription);
 router.put('/subscriptions/:uuid', SubscriptionsController.updateSubscription);
