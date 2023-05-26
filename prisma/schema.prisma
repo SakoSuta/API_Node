@@ -27,13 +27,10 @@ model User {
 
 model Subscriptions {
   id    Int     @id @default(autoincrement())
-  userId Int  @unique
-  planId Int  @unique
   uuid String @unique
   startDate DateTime
   endDate DateTime?
-  user User @relation(fields: [userId], references: [id])
-  plan Plan @relation(fields: [planId], references: [id])
+  user User[]
 }
 
 model Post {
@@ -52,12 +49,11 @@ model Post {
 
 model Plan {
   id    Int     @id @default(autoincrement())
-  name String
+  name String @unique
   price Int
   slug String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  subscriptions Subscriptions[]
   category Category[]
 }
 

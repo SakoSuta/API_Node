@@ -5,6 +5,7 @@
 const { Request, Response } = require('express');
 const { PrismaClient } = require('@prisma/client');
 const slugify = require('slugify');
+const { subscribe } = require('diagnostics_channel');
 
 const prisma = new PrismaClient();
 
@@ -36,21 +37,24 @@ const PlanController = {
   createPlan: async (req, res) => {
     try {
       const { name, price, category } = req.body;
+      console.log(req.body);
       const slug = slugify(name, { lower: true });
+      console.log(slug);
       const plan = await prisma.plan.create({
         data: {
           name,
           slug,
           price,
-          category,
-        },
-        include: {
-          category: true,
-        },
-      });
+          category: { 
+            connect: {id: parseInt(category)}
+          }
+      }
+    });
       res.json({ plan, message: 'Plan successfully created.' });
     } catch (error) {
       // Gérer les erreurs
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while creating the plan.' });
     }
   },
 
