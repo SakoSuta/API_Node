@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `subscriptions` MODIFY `startDate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);

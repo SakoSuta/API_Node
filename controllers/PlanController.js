@@ -11,6 +11,7 @@ const PlanController = {
       const plans = await prisma.plan.findMany();
       res.json(plans);
     }catch (error){
+      console.error(error);
       res.status(500).json({ error: 'An error occurred while retrieving plans.' });
     }
   },
@@ -25,6 +26,7 @@ const PlanController = {
       }
       res.json(plan);
     }catch (error){
+      console.error(error);
       res.status(500).json({ error: 'An error occurred while retrieving the plan.' });
     }
   },

@@ -12,6 +12,7 @@ const UserController = {
         const users = await prisma.user.findMany();
         res.json(users);
       } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'An error occurred while retrieving users.' });
       }
   },
@@ -26,6 +27,7 @@ const UserController = {
         }
         res.json(user);
       } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'An error occurred while retrieving the user.' });
       }
   },
@@ -46,6 +48,7 @@ const UserController = {
             res.json({user, message: 'User successfully created.'});
         }
       } catch (error) {
+        console.error(error);
         if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
             res.status(400).json({ error: 'This email is already used by another user.' });
           } else if (error.code === 'P2002' && error.meta?.target?.includes('pseudo')) {
@@ -72,6 +75,7 @@ const UserController = {
         });
         res.json({user, message: 'User updated successfully.' });
       }catch (error) {
+        console.error(error);
         if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
             res.status(400).json({ error: 'This email is already used by another user.' });
           } else if (error.code === 'P2002' && error.meta?.target?.includes('pseudo')) {
@@ -102,6 +106,7 @@ const UserController = {
             res.json({user, message: 'User deleted successfully.' });
         }
       } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'An error occurred while deleting the user.' });
       }
   },

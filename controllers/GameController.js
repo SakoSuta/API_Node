@@ -11,6 +11,7 @@ const GameController = {
       const games = await prisma.game.findMany();
       res.json(games);
     }catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'An error occurred while retrieving games.' });
     }
   },
@@ -25,6 +26,7 @@ const GameController = {
       }
       res.json(game);
     }catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'An error occurred while retrieving the game.' });
     }
   },
@@ -88,6 +90,7 @@ const GameController = {
       const game = await prisma.game.delete({ where: { slug } });
       res.json({ game, message: 'Game successfully deleted.' });
     }catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'An error occurred while deleting the game.' });
     }
   },

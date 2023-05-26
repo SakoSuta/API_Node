@@ -24,7 +24,7 @@ router.put('/plans/:slug', PlanController.updatePlan);
 router.delete('/plans/:slug', PlanController.deletePlan);
 
 // Routes pour Subscriptions
-router.get('/', SubscriptionsController.getAllSubscriptions);
+router.get('/subscriptions', SubscriptionsController.getAllSubscriptions);
 router.get('/subscriptions/:uuid', SubscriptionsController.getSubscriptionByUuid);
 router.post('/subscriptions', SubscriptionsController.createSubscription);
 router.put('/subscriptions/:uuid', SubscriptionsController.updateSubscription);

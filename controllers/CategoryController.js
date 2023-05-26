@@ -11,6 +11,7 @@ const CategoryController = {
       const categories = await prisma.category.findMany();
       res.json(categories);
     }catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'An error occurred while retrieving categories.' });
     }
   },
@@ -25,6 +26,7 @@ const CategoryController = {
       }
       res.json(category);
     }catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'An error occurred while retrieving the category.' });
     }
   },
@@ -39,7 +41,6 @@ const CategoryController = {
       });
       res.json({ category, message: 'Category successfully created.' });
     }catch (error) {
-      // Gérer les erreurs
       console.error(error);
       if(error.code === 'P2002' && error.meta?.target?.includes('name')){
         res.status(400).json({ error: 'This name is already used by another category.' });

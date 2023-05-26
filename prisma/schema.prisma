@@ -28,7 +28,7 @@ model User {
 model Subscriptions {
   id    Int     @id @default(autoincrement())
   uuid String @unique
-  startDate DateTime
+  startDate DateTime @default(now())
   endDate DateTime?
   plan Plan[]
   user User[]
