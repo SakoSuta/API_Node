@@ -1,11 +1,6 @@
-// import { Request, Response } from 'express';
-// import { PrismaClient} from '@prisma/client';
-// import slugify from 'slugify';
-
 const { Request, Response } = require('express');
 const { PrismaClient } = require('@prisma/client');
 const slugify = require('slugify');
-const { subscribe } = require('diagnostics_channel');
 
 const prisma = new PrismaClient();
 
@@ -52,7 +47,6 @@ const PlanController = {
     });
       res.json({ plan, message: 'Plan successfully created.' });
     } catch (error) {
-      // Gérer les erreurs
       console.error(error);
       if(error.code === 'P2002' && error.meta?.target?.includes('name')){
         res.status(400).json({ error: 'This name is already used by another plan.' });
@@ -86,7 +80,6 @@ const PlanController = {
       });
       res.json({ plan, message: 'Plan successfully updated.' });
     } catch (error) {
-      // Gérer les erreurs
       console.error(error);
       if(error.code === 'P2002' && error.meta?.target?.includes('name')){
         res.status(400).json({ error: 'This name is already used by another plan.' });
@@ -106,7 +99,6 @@ const PlanController = {
       const plan = await prisma.plan.delete({ where: { slug } });
       res.json({ plan, message: 'Plan successfully deleted.' });
     }catch (error) {
-      // Gérer les erreurs
       console.error(error);
       res.status(500).json({ error: 'An error occurred while deleting the plan.' });
     }

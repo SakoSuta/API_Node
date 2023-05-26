@@ -1,8 +1,3 @@
-// import { Request, Response } from 'express';
-// import { PrismaClient } from '@prisma/client';
-// import { hash } from 'argon2';
-// import { v4 as uuidv4 } from 'uuid';
-
 const { Request, Response } = require('express');
 const { PrismaClient } = require('@prisma/client');
 const { hash } = require('argon2');
