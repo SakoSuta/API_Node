@@ -37,13 +37,11 @@ const PlanController = {
   createPlan: async (req, res) => {
     try {
       const { name, price, category } = req.body;
-      console.log(req.body);
-      const slug = slugify(name, { lower: true });
-      console.log(slug);
+      const CreatSlug = slugify(name, { lower: true });
       const plan = await prisma.plan.create({
         data: {
           name,
-          slug,
+          slug: CreatSlug,
           price: parseFloat(price),
           category: { 
             connect: category.map((categoryId) => ({
@@ -65,10 +63,53 @@ const PlanController = {
 
   updatePlan: async (req, res) => {
     // Mettez à jour un Plan
+    try {
+      const { slug } = req.params;
+      const { name, price, category } = req.body;
+      const planSlug = await prisma.plan.findUnique({ where: { slug } });
+      if (!planSlug) {
+        res.status(404).json({ error: 'Plan not found.' });
+      }
+      const CreatSlug = slugify(name);
+      const plan = await prisma.plan.update({
+        where: { slug },
+        data: {
+          name,
+          slug: CreatSlug,
+          price: parseFloat(price),
+          category: { 
+            connect: category.map((categoryId) => ({
+              id: parseInt(categoryId),
+            }))
+          }
+        }
+      });
+      res.json({ plan, message: 'Plan successfully updated.' });
+    } catch (error) {
+      // Gérer les erreurs
+      console.error(error);
+      if(error.code === 'P2002' && error.meta?.target?.includes('name')){
+        res.status(400).json({ error: 'This name is already used by another plan.' });
+      }
+      res.status(500).json({ error: 'An error occurred while creating the plan.' });
+    }
   },
 
   deletePlan: async (req, res) => {
     // Supprimez un Plan
+    try {
+      const { slug } = req.params;
+      const planSlug = await prisma.plan.findUnique({ where: { slug } });
+      if (!planSlug) {
+        res.status(404).json({ error: 'Plan not found.' });
+      }
+      const plan = await prisma.plan.delete({ where: { slug } });
+      res.json({ plan, message: 'Plan successfully deleted.' });
+    }catch (error) {
+      // Gérer les erreurs
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while deleting the plan.' });
+    }
   },
 };
 
