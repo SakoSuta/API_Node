@@ -46,7 +46,9 @@ const PlanController = {
           slug,
           price,
           category: { 
-            connect: {id: parseInt(category)}
+            connect: category.map((categoryId) => ({
+              id: parseInt(categoryId),
+            }))
           }
       }
     });

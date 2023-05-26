@@ -30,6 +30,7 @@ model Subscriptions {
   uuid String @unique
   startDate DateTime
   endDate DateTime?
+  plan Plan[]
   user User[]
 }
 
@@ -54,6 +55,7 @@ model Plan {
   slug String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  subscriptions Subscriptions[]
   category Category[]
 }
 
