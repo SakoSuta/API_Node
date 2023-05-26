@@ -1,12 +1,17 @@
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { hash } from 'argon2';
-import { v4 as uuidv4 } from 'uuid';
+// import { Request, Response } from 'express';
+// import { PrismaClient } from '@prisma/client';
+// import { hash } from 'argon2';
+// import { v4 as uuidv4 } from 'uuid';
+
+const { Request, Response } = require('express');
+const { PrismaClient } = require('@prisma/client');
+const { hash } = require('argon2');
+const { v4: uuidv4 } = require('uuid');
 
 const prisma = new PrismaClient();
 
 const UserController = {
-  getAllUsers: async (req: Request, res: Response) => {
+  getAllUsers: async (req, res) => {
     // Récupérez tous les utilisateurs dans la base de données
     try {
         const users = await prisma.user.findMany();
@@ -16,7 +21,7 @@ const UserController = {
       }
   },
 
-  getUserByUuid: async (req: Request, res: Response) => {
+  getUserByUuid: async (req, res) => {
     // Récupérez un utilisateur par son UUID
     try {
       const { uuid } = req.params;
@@ -30,7 +35,7 @@ const UserController = {
       }
   },
 
-  createUser: async (req: Request, res: Response) => {
+  createUser: async (req, res) => {
     // Créez un utilisateur
     try {
         const users = await prisma.user.findMany();
@@ -45,7 +50,7 @@ const UserController = {
             const user = await prisma.user.create({ data: { name, pseudo, email, password:hashedPassword, uuid } });
             res.json({user, message: 'User successfully created.'});
         }
-      } catch (error: any) {
+      } catch (error) {
         if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
             res.status(400).json({ error: 'This email is already used by another user.' });
           } else if (error.code === 'P2002' && error.meta?.target?.includes('pseudo')) {
@@ -56,7 +61,7 @@ const UserController = {
       }
   },
 
-  updateUser: async (req: Request, res: Response) => {
+  updateUser: async (req, res) => {
     // Mettez à jour un utilisateur
     try {
         const { uuid } = req.params;
@@ -71,7 +76,7 @@ const UserController = {
           data: { name, pseudo, email, password:hashedPassword, isAdmin },
         });
         res.json({user, message: 'User updated successfully.' });
-      }catch (error: any) {
+      }catch (error) {
         if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
             res.status(400).json({ error: 'This email is already used by another user.' });
           } else if (error.code === 'P2002' && error.meta?.target?.includes('pseudo')) {
@@ -82,7 +87,7 @@ const UserController = {
       }
   },
 
-  deleteUser: async (req: Request, res: Response) => {
+  deleteUser: async (req, res) => {
     // Supprimez un utilisateur
     try {
         const { uuid } = req.params;
@@ -107,4 +112,4 @@ const UserController = {
   },
 };
 
-export default UserController;
+module.exports = UserController;

@@ -1,8 +1,9 @@
-import express from 'express';
-const app = express();
-import router from './routes/router';
+const express = require('express');
 
-// les middlewares nécessaires
+const app = express();
+const router = require('./routes/router');
+
+// Les middlewares nécessaires
 app.use(express.json());
 
 // Montez les routes

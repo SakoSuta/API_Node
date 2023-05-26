@@ -1,11 +1,20 @@
-import { Router } from 'express';
-import UserController from '../controllers/UserController';
-import PlanController from '../controllers/PlanController';
-import SubscriptionsController from '../controllers/SubscriptionsController';
-import PromoCodeController from '../controllers/PromoCodeController';
-import PostController from '../controllers/PostController';
-import CategoryController from '../controllers/CategoryController';
-import GameController from '../controllers/GameController';
+// import { Router } from 'express';
+// import UserController from '../controllers/UserController';
+// import PlanController from '../controllers/PlanController';
+// import SubscriptionsController from '../controllers/SubscriptionsController';
+// import PromoCodeController from '../controllers/PromoCodeController';
+// import PostController from '../controllers/PostController';
+// import CategoryController from '../controllers/CategoryController';
+// import GameController from '../controllers/GameController';
+
+const { Router } = require('express');
+const UserController = require('../controllers/UserController');
+const PlanController = require('../controllers/PlanController');
+const SubscriptionsController = require('../controllers/SubscriptionsController');
+const PromoCodeController = require('../controllers/PromoCodeController');
+const PostController = require('../controllers/PostController');
+const CategoryController = require('../controllers/CategoryController');
+const GameController = require('../controllers/GameController');
 
 const router = Router();
 
@@ -58,4 +67,4 @@ router.post('/games', GameController.createGame);
 router.put('/games/:slug', GameController.updateGame);
 router.delete('/games/:slug', GameController.deleteGame);
 
-export default router;
+module.exports = router;
