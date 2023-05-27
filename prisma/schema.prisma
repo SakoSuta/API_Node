@@ -61,9 +61,11 @@ model Plan {
 
 model PromoCode {
   id        Int      @id @default(autoincrement())
+  uuid      String   @unique
+  name     String   @unique
   code      String   @unique
   discount  Float
-  startDate DateTime
+  startDate DateTime?
   endDate   DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

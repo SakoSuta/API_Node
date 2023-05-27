@@ -32,10 +32,10 @@ router.delete('/subscriptions/:uuid', SubscriptionsController.deleteSubscription
 
 // Routes pour PromoCode
 router.get('/promo', PromoCodeController.getAllPromoCodes);
-router.get('/promo/:id', PromoCodeController.getPromoCodeById);
+router.get('/promo/:uuid', PromoCodeController.getPromoCodeByUuid);
 router.post('/promo', PromoCodeController.createPromoCode);
-router.put('/promo/:id', PromoCodeController.updatePromoCode);
-router.delete('/promo/:id', PromoCodeController.deletePromoCode);
+router.put('/promo/:uuid', PromoCodeController.updatePromoCode);
+router.delete('/promo/:uuid', PromoCodeController.deletePromoCode);
 
 // Routes pour Post
 router.get('/posts', PostController.getAllPosts);
