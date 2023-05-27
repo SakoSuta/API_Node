@@ -78,6 +78,10 @@ const PromoCodeController = {
     // Supprimez un Code Promo
     try {
       const { uuid } = req.params;
+      const promoCodeUuid = await prisma.promoCode.findUnique({ where: { uuid } });
+      if (!promoCodeUuid) {
+        return res.status(404).json({ error: 'Promo code not found.' });
+      }
       const promoCode = await prisma.promoCode.delete({ where: { uuid } });
       res.json({ promoCode, message: 'Promo code successfully deleted.' });
     }catch (error){
