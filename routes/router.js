@@ -6,6 +6,7 @@ const PromoCodeController = require('../controllers/PromoCodeController');
 const PostController = require('../controllers/PostController');
 const CategoryController = require('../controllers/CategoryController');
 const GameController = require('../controllers/GameController');
+const ContactController = require('../controllers/ContactController');
 
 const router = Router();
 
@@ -57,5 +58,8 @@ router.get('/games/:slug', GameController.getGameBySlug);
 router.post('/games', GameController.createGame);
 router.put('/games/:slug', GameController.updateGame);
 router.delete('/games/:slug', GameController.deleteGame);
+
+// Routes pour Contact
+router.get('/contact', ContactController.MailNew);
 
 module.exports = router;

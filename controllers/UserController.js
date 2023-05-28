@@ -1,3 +1,4 @@
+const { MailNew } = require('./ContactController');
 const { Request, Response } = require('express');
 const { PrismaClient } = require('@prisma/client');
 const { hash } = require('argon2');
@@ -42,6 +43,7 @@ const UserController = {
         if (users.length === 0){
             const isAdmin = true;
             const user = await prisma.user.create({ data: { name, pseudo, email, password:hashedPassword, uuid, isAdmin } });
+            const mail = await MailNew(user);
             res.json({user, message: 'User (Admin) successfully created.'});
         }else{
             const user = await prisma.user.create({ data: { name, pseudo, email, password:hashedPassword, uuid } });
