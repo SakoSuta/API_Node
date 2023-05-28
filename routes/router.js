@@ -60,6 +60,6 @@ router.put('/games/:slug', GameController.updateGame);
 router.delete('/games/:slug', GameController.deleteGame);
 
 // Routes pour Contact
-router.get('/contact', ContactController.MailNew);
+router.get('/contact', ContactController.ContactPage);
 
 module.exports = router;

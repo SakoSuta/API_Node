@@ -1,4 +1,4 @@
-const { Response } = require('express');
+const { Request, Response } = require('express');
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
@@ -122,6 +122,23 @@ Thank you for using our service.
 Best regards,
 The Website Team`,
       };
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log('E-mail sent:', info.messageId);
+      res.json({ message: 'E-mail sent successfully.'});
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  },
+
+  ContactPage: async (req, res) => {
+    const { name, email, subject, message } = req.body;
+    const mailOptions = {
+      from: '${email}',
+      to: 'sakosakosuta.em@gmail.com',
+      subject: '${subject}',
+      text: '${message}',
+    };
     try {
       const info = await transporter.sendMail(mailOptions);
       console.log('E-mail sent:', info.messageId);
