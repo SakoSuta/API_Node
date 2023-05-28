@@ -44,10 +44,17 @@ const UserController = {
             const isAdmin = true;
             const user = await prisma.user.create({ data: { name, pseudo, email, password:hashedPassword, uuid, isAdmin } });
             const mail = await MailNew(user);
+            if(!mail){
+                res.status(500).json({ error: 'An error occurred while sending the email.' });
+            }
             res.json({user, message: 'User (Admin) successfully created.'});
         }else{
             const user = await prisma.user.create({ data: { name, pseudo, email, password:hashedPassword, uuid } });
             res.json({user, message: 'User successfully created.'});
+            const mail = await MailNew(user);
+            if(!mail){
+                res.status(500).json({ error: 'An error occurred while sending the email.' });
+            }
         }
       } catch (error) {
         console.error(error);

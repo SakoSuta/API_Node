@@ -42,6 +42,10 @@ const SubscriptionsController = {
           plan: {  connect: { id: parseInt(plan) } },
           uuid: Creatuuid,
         },
+        include: {
+          user: true,
+          plan: true,
+        },
       });
       res.json({subscription, message: 'Subscription successfully created.'});
     }catch (error) {
