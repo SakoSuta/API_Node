@@ -1,3 +1,4 @@
+const { ConfimeSub, ConfimeUnsub } = require('./ContactController');
 const { Request, Response } = require("express");
 const { PrismaClient } = require("@prisma/client");
 const { v4: uuidv4 } = require('uuid');
@@ -47,6 +48,7 @@ const SubscriptionsController = {
           plan: true,
         },
       });
+      await ConfimeSub(subscription);
       res.json({subscription, message: 'Subscription successfully created.'});
     }catch (error) {
       console.error(error);
@@ -83,12 +85,16 @@ const SubscriptionsController = {
     // Supprimez un Abonnée
     try {
       const { uuid } = req.params;
-      const SubUuid = await prisma.subscriptions.findUnique({ where: { uuid } });
+      const SubUuid = await prisma.subscriptions.findUnique({ where: { uuid }, include: { user: true, plan: true } });
       if (!SubUuid) {
         res.status(404).json({ error: 'Subscription not found.' });
       }
-      const subscription = await prisma.subscriptions.delete({ where: { uuid } });
-      res.json({subscription, message: 'Subscription successfully deleted.' });
+      const mail = await ConfimeUnsub(SubUuid);
+      if(mail)
+      {
+        const subscription = await prisma.subscriptions.delete({ where: { uuid } });
+        res.json({subscription, message: 'Subscription successfully deleted.' });
+      }
     }catch (error) {
       console.error(error);
       res.status(500).json({ error: 'An error occurred while deleting the subscription.' });
