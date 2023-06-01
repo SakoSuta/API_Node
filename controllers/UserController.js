@@ -4,6 +4,14 @@ const { PrismaClient } = require('@prisma/client');
 const { hash } = require('argon2');
 const { v4: uuidv4 } = require('uuid');
 
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: "dbafwzm7y",
+  api_key: "439629676368732",
+  api_secret: "_mVDGlpY3rE30RTXcwU7G-aLkaE"
+});
+
 const prisma = new PrismaClient();
 
 const UserController = {
@@ -38,11 +46,13 @@ const UserController = {
     try {
         const users = await prisma.user.findMany();
         const { name, pseudo, email, password } = req.body;
+        const result = await cloudinary.uploader.upload(req.file.path);
+        const image = result.secure_url;
         const hashedPassword = await hash(password);
         const uuid = uuidv4();
         if (users.length === 0){
             const isAdmin = true;
-            const user = await prisma.user.create({ data: { name, pseudo, email, password:hashedPassword, uuid, isAdmin } });
+            const user = await prisma.user.create({ data: { name, pseudo, email, password:hashedPassword, uuid, isAdmin, image } });
             const mail = await MailNew(user);
             if(!mail){
                 res.status(500).json({ error: 'An error occurred while sending the email.' });
@@ -56,6 +66,7 @@ const UserController = {
                 res.status(500).json({ error: 'An error occurred while sending the email.' });
             }
         }
+        fs.unlinkSync(req.file.path);
       } catch (error) {
         console.error(error);
         if (error.code === 'P2002' && error.meta?.target?.includes('email')) {

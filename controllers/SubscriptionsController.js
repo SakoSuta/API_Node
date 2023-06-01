@@ -35,12 +35,13 @@ const SubscriptionsController = {
   createSubscription: async (req, res) => {
     // Créez un Abonnée
     try {
-      const { user, plan } = req.body;
+      const { user, plan, endDate } = req.body;
       const Creatuuid = uuidv4();
       const subscription = await prisma.subscriptions.create({
         data: {
           user: {  connect: { id: parseInt(user) } },
           plan: {  connect: { id: parseInt(plan) } },
+          endDate,
           uuid: Creatuuid,
         },
         include: {
