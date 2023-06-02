@@ -3,12 +3,12 @@ const nodemailer = require('nodemailer');
 const { env } = require('process');
 
 const transporter = nodemailer.createTransport({
-    mailer: env(MAILER),
-    host: env(HOST),
-    port: env(PORT),
+    mailer: env("MAILER"),
+    host: env("HOST"),
+    port: env("PORT"),
     auth: {
-      user: env(USERMAIL),
-      pass: env(PASSMAIL),
+      user: env("USERMAIL"),
+      pass: env("PASSMAIL"),
     },
   });
 
@@ -16,7 +16,7 @@ const ContactController = {
   MailNew: async (data, res) => {
     const user = data;
     const mailOptions = {
-      from: env(FROM_EMAIL),
+      from: env("FROM_EMAIL"),
       to: `${user.email}`,
       subject: 'Hello from MailTrap!',
       text: 
@@ -43,7 +43,7 @@ The Website Team`,
   ConfimeSub: async (data, res) => {
     const subscription = data;
     const mailOptions = {
-      from: env(FROM_EMAIL),
+      from: env("FROM_EMAIL"),
       to: `${subscription.user[0].email}`,
       subject: 'Confirmation of your subscription!',
       text: `
@@ -73,7 +73,7 @@ The Website Team`,
   ConfimeUnsub: async (data, res) => {
     const subscription = data;
     const mailOptions = {
-      from: env(FROM_EMAIL),
+      from: env("FROM_EMAIL"),
       to: `${subscription.user[0].email}`,
       subject: 'Confirmation of your unsubscription!',
       text: `
@@ -108,7 +108,7 @@ The Website Team`,
   ChangingPassword: async (data, res) => {
     const user = data;
     const mailOptions = {
-      from: env(FROM_EMAIL),
+      from: env("FROM_EMAIL"),
       to: `${user.email}`,
       subject: 'Confirmation of your password change!',
       text: `
@@ -136,7 +136,7 @@ The Website Team`,
     const { name, email, subject, message } = req.body;
     const mailOptions = {
       from: `${email}`,
-      to: env(FROM_EMAIL),
+      to: env("FROM_EMAIL"),
       subject: `${subject}(from ${name})`,
       text: `${message}`,
     };
