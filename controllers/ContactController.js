@@ -1,16 +1,14 @@
-const { log } = require('console');
 const { Request, Response } = require('express');
 const nodemailer = require('nodemailer');
-const { MAILER, HOST, PORT, USERMAIL, PASSMAIL, FROM_EMAIL } = process.env;
+require('dotenv').config();
 
-console.log("test" + MAILER);
 const transporter = nodemailer.createTransport({
-    mailer: "smtp",
-    host: "HOST",
-    port: 2525,
+    mailer: process.env.MAILER,
+    host: process.env.HOST,
+    port: process.env.PORT,
     auth: {
-      user: "df6612f8b6dab2",
-      pass: "2866932e32d031",
+      user: process.env.USERMAIL,
+      pass: process.env.PASSMAIL,
     },
   });
 
@@ -106,7 +104,6 @@ The Website Team`,
       console.error('Error sending email:', error);
     }
   },
-
   ChangingPassword: async (data, res) => {
     const user = data;
     const mailOptions = {
@@ -133,14 +130,11 @@ The Website Team`,
       console.error('Error sending email:', error);
     }
   },
-
   ContactPage: async (req, res) => {
     const { name, email, subject, message } = req.body;
-    console.log(MAILER);
-    console.log(transporter);
     const mailOptions = {
       from: `${email}`,
-      to: "PlanetPlay@gmail.com",
+      to: process.env.FROM_EMAIL,
       subject: `${subject}(from ${name})`,
       text: `${message}`,
     };

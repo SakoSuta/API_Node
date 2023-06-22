@@ -67,6 +67,6 @@ router.put('/games/:slug', AuthenticateToken, GameController.updateGame);
 router.delete('/games/:slug', AuthenticateToken, GameController.deleteGame);
 
 // Routes pour Contact
-router.get('/contact', AuthenticateToken, ContactController.ContactPage);
+router.post('/contact', ContactController.ContactPage);
 
 module.exports = router;

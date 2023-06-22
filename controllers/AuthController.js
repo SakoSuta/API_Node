@@ -12,7 +12,7 @@ const AuthController = {
     try {
       const { email, password } = req.body;
 
-      const user = await prisma.user.findUnique({ where: { email } });
+      const user = await prisma.user.findFirst({ where: { email: { equals: email } } });
       if (!user) {
         return res.status(401).json({ error: "User Invalid." });
       }
@@ -22,7 +22,7 @@ const AuthController = {
       }
 
       const token = await GenerateToken(user);
-      // localStorage.setItem("token", token);
+      
 
       return res
         .status(200)
@@ -50,8 +50,9 @@ const AuthController = {
   InfoUser: async (req, res) => {
     // Récupérez les informations de l'utilisateur
     try {
-      const id = req.user.UserId;
-      const user = await prisma.user.findUnique({ where: { id } });
+      const userId = req.user.UserId;
+      console.log(userId);
+      const user = await prisma.user.findUnique({ where: { id: userId } });
       if (!user) {
         return res.status(404).json({ error: "User not found." });
       }
