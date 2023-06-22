@@ -1,14 +1,16 @@
+const { log } = require('console');
 const { Request, Response } = require('express');
 const nodemailer = require('nodemailer');
-const { env } = require('process');
+const { MAILER, HOST, PORT, USERMAIL, PASSMAIL, FROM_EMAIL } = process.env;
 
+console.log("test" + MAILER);
 const transporter = nodemailer.createTransport({
-    mailer: process.env.MAILER,
-    host: process.env.HOSTMAIL,
-    port: process.env.PORTMAIL,
+    mailer: "smtp",
+    host: "HOST",
+    port: 2525,
     auth: {
-      user: process.env.USERMAIL,
-      pass: process.env.PASSMAIL,
+      user: "df6612f8b6dab2",
+      pass: "2866932e32d031",
     },
   });
 
@@ -16,7 +18,7 @@ const ContactController = {
   MailNew: async (data, res) => {
     const user = data;
     const mailOptions = {
-      from: process.env.FROM_EMAIL,
+      from: FROM_EMAIL,
       to: `${user.email}`,
       subject: 'Hello from MailTrap!',
       text: 
@@ -43,7 +45,7 @@ The Website Team`,
   ConfimeSub: async (data, res) => {
     const subscription = data;
     const mailOptions = {
-      from: process.env.FROM_EMAIL,
+      from: FROM_EMAIL,
       to: `${subscription.user[0].email}`,
       subject: 'Confirmation of your subscription!',
       text: `
@@ -73,7 +75,7 @@ The Website Team`,
   ConfimeUnsub: async (data, res) => {
     const subscription = data;
     const mailOptions = {
-      from: process.env.FROM_EMAIL,
+      from: FROM_EMAIL,
       to: `${subscription.user[0].email}`,
       subject: 'Confirmation of your unsubscription!',
       text: `
@@ -108,7 +110,7 @@ The Website Team`,
   ChangingPassword: async (data, res) => {
     const user = data;
     const mailOptions = {
-      from: process.env.FROM_EMAIL,
+      from: FROM_EMAIL,
       to: `${user.email}`,
       subject: 'Confirmation of your password change!',
       text: `
@@ -134,9 +136,11 @@ The Website Team`,
 
   ContactPage: async (req, res) => {
     const { name, email, subject, message } = req.body;
+    console.log(MAILER);
+    console.log(transporter);
     const mailOptions = {
       from: `${email}`,
-      to: process.env.FROM_EMAIL,
+      to: "PlanetPlay@gmail.com",
       subject: `${subject}(from ${name})`,
       text: `${message}`,
     };

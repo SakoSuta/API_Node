@@ -1,33 +1,37 @@
-const { Request, Response } = require('express');
-const { PrismaClient } = require('@prisma/client');
-const slugify = require('slugify');
+const { Request, Response } = require("express");
+const { PrismaClient } = require("@prisma/client");
+const slugify = require("slugify");
 
 const prisma = new PrismaClient();
 
 const PlanController = {
   getAllPlans: async (req, res) => {
     // Récupérez tous les Plans dans la base de données
-    try{
+    try {
       const plans = await prisma.plan.findMany();
       res.json(plans);
-    }catch (error){
+    } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while retrieving plans.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while retrieving plans." });
     }
   },
 
   getPlanBySlug: async (req, res) => {
     // Récupérez un Plan par son Slug
-    try{
+    try {
       const { slug } = req.params;
       const plan = await prisma.plan.findUnique({ where: { slug } });
       if (!plan) {
-        return res.status(404).json({ error: 'Plan not found.' });
+        return res.status(404).json({ error: "Plan not found." });
       }
       res.json(plan);
-    }catch (error){
+    } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while retrieving the plan.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while retrieving the plan." });
     }
   },
 
@@ -40,20 +44,24 @@ const PlanController = {
           name,
           slug: CreatSlug,
           price: parseFloat(price),
-          category: { 
+          category: {
             connect: category.map((categoryId) => ({
               id: parseInt(categoryId),
-            }))
-          }
-      }
-    });
-      res.json({ plan, message: 'Plan successfully created.' });
+            })),
+          },
+        },
+      });
+      res.json({ plan, message: "Plan successfully created." });
     } catch (error) {
       console.error(error);
-      if(error.code === 'P2002' && error.meta?.target?.includes('name')){
-        res.status(400).json({ error: 'This name is already used by another plan.' });
+      if (error.code === "P2002" && error.meta?.target?.includes("name")) {
+        res
+          .status(409)
+          .json({ error: "This name is already used by another plan." });
       }
-      res.status(500).json({ error: 'An error occurred while creating the plan.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while creating the plan." });
     }
   },
 
@@ -64,7 +72,7 @@ const PlanController = {
       const { name, price, category } = req.body;
       const planSlug = await prisma.plan.findUnique({ where: { slug } });
       if (!planSlug) {
-        res.status(404).json({ error: 'Plan not found.' });
+        res.status(404).json({ error: "Plan not found." });
       }
       const CreatSlug = slugify(name);
       const plan = await prisma.plan.update({
@@ -73,20 +81,24 @@ const PlanController = {
           name,
           slug: CreatSlug,
           price: parseFloat(price),
-          category: { 
+          category: {
             connect: category.map((categoryId) => ({
               id: parseInt(categoryId),
-            }))
-          }
-        }
+            })),
+          },
+        },
       });
-      res.json({ plan, message: 'Plan successfully updated.' });
+      res.json({ plan, message: "Plan successfully updated." });
     } catch (error) {
       console.error(error);
-      if(error.code === 'P2002' && error.meta?.target?.includes('name')){
-        res.status(400).json({ error: 'This name is already used by another plan.' });
+      if (error.code === "P2002" && error.meta?.target?.includes("name")) {
+        res
+          .status(409)
+          .json({ error: "This name is already used by another plan." });
       }
-      res.status(500).json({ error: 'An error occurred while creating the plan.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while creating the plan." });
     }
   },
 
@@ -96,13 +108,15 @@ const PlanController = {
       const { slug } = req.params;
       const planSlug = await prisma.plan.findUnique({ where: { slug } });
       if (!planSlug) {
-        res.status(404).json({ error: 'Plan not found.' });
+        res.status(404).json({ error: "Plan not found." });
       }
       const plan = await prisma.plan.delete({ where: { slug } });
-      res.json({ plan, message: 'Plan successfully deleted.' });
-    }catch (error) {
+      res.json({ plan, message: "Plan successfully deleted." });
+    } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while deleting the plan.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while deleting the plan." });
     }
   },
 };

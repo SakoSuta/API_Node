@@ -10,9 +10,11 @@ const GameController = {
     try {
       const games = await prisma.game.findMany();
       res.json(games);
-    }catch (error) {
+    } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while retrieving games.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while retrieving games." });
     }
   },
 
@@ -22,12 +24,14 @@ const GameController = {
       const { slug } = req.params;
       const gameSlug = await prisma.game.findUnique({ where: { slug } });
       if (!gameSlug) {
-        return res.status(404).json({ error: 'Game not found.' });
+        return res.status(404).json({ error: "Game not found." });
       }
       res.json(game);
-    }catch (error) {
+    } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while retrieving the game.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while retrieving the game." });
     }
   },
 
@@ -40,15 +44,19 @@ const GameController = {
         data: {
           name,
           slug: CreatSlug,
-        }
+        },
       });
-      res.json({ game, message: 'Game successfully created.' });
-    }catch (error) {
+      res.json({ game, message: "Game successfully created." });
+    } catch (error) {
       console.error(error);
-      if(error.code === 'P2002' && error.meta?.target?.includes('name')){
-        res.status(400).json({ error: 'This name is already used by another game.' });
+      if (error.code === "P2002" && error.meta?.target?.includes("name")) {
+        res
+          .status(409)
+          .json({ error: "This name is already used by another game." });
       }
-      res.status(500).json({ error: 'An error occurred while creating the game.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while creating the game." });
     }
   },
 
@@ -60,22 +68,26 @@ const GameController = {
       CreatSlug = slugify(name);
       const gameSlug = await prisma.game.findUnique({ where: { slug } });
       if (!gameSlug) {
-        return res.status(404).json({ error: 'Game not found.' });
+        return res.status(404).json({ error: "Game not found." });
       }
       const game = await prisma.game.update({
         where: { slug },
         data: {
           name,
           slug: CreatSlug,
-        }
+        },
       });
-      res.json({ game, message: 'Game successfully updated.' });
-    }catch (error) {
+      res.json({ game, message: "Game successfully updated." });
+    } catch (error) {
       console.error(error);
-      if(error.code === 'P2002' && error.meta?.target?.includes('name')){
-        res.status(400).json({ error: 'This name is already used by another game.' });
+      if (error.code === "P2002" && error.meta?.target?.includes("name")) {
+        res
+          .status(409)
+          .json({ error: "This name is already used by another game." });
       }
-      res.status(500).json({ error: 'An error occurred while updating the game.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while updating the game." });
     }
   },
 
@@ -85,13 +97,15 @@ const GameController = {
       const { slug } = req.params;
       const gameSlug = await prisma.game.findUnique({ where: { slug } });
       if (!gameSlug) {
-        return res.status(404).json({ error: 'Game not found.' });
+        return res.status(404).json({ error: "Game not found." });
       }
       const game = await prisma.game.delete({ where: { slug } });
-      res.json({ game, message: 'Game successfully deleted.' });
-    }catch (error) {
+      res.json({ game, message: "Game successfully deleted." });
+    } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while deleting the game.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while deleting the game." });
     }
   },
 };

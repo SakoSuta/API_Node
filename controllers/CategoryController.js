@@ -10,9 +10,11 @@ const CategoryController = {
     try {
       const categories = await prisma.category.findMany();
       res.json(categories);
-    }catch (error) {
+    } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while retrieving categories.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while retrieving categories." });
     }
   },
 
@@ -22,12 +24,14 @@ const CategoryController = {
       const { slug } = req.params;
       const category = await prisma.category.findUnique({ where: { slug } });
       if (!category) {
-        return res.status(404).json({ error: 'Category not found.' });
+        return res.status(404).json({ error: "Category not found." });
       }
       res.json(category);
-    }catch (error) {
+    } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while retrieving the category.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while retrieving the category." });
     }
   },
 
@@ -37,15 +41,19 @@ const CategoryController = {
       const { name } = req.body;
       const CreatSlug = slugify(name);
       const category = await prisma.category.create({
-        data: { name, slug: CreatSlug }
+        data: { name, slug: CreatSlug },
       });
-      res.json({ category, message: 'Category successfully created.' });
-    }catch (error) {
+      res.json({ category, message: "Category successfully created." });
+    } catch (error) {
       console.error(error);
-      if(error.code === 'P2002' && error.meta?.target?.includes('name')){
-        res.status(400).json({ error: 'This name is already used by another category.' });
+      if (error.code === "P2002" && error.meta?.target?.includes("name")) {
+        res
+          .status(409)
+          .json({ error: "This name is already used by another category." });
       }
-      res.status(500).json({ error: 'An error occurred while creating the category.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while creating the category." });
     }
   },
 
@@ -55,21 +63,25 @@ const CategoryController = {
       const { name } = req.body;
       const { slug } = req.params;
       const CategorySlug = prisma.category.findUnique({ where: { slug } });
-      if(!CategorySlug){
-        return res.status(404).json({ error: 'Category not found.' });
+      if (!CategorySlug) {
+        return res.status(404).json({ error: "Category not found." });
       }
       const CreatSlug = slugify(name);
       const category = await prisma.category.update({
         where: { slug },
-        data: { name, slug: CreatSlug }
+        data: { name, slug: CreatSlug },
       });
-      res.json({ category, message: 'Category successfully updated.' });
-    }catch (error) {
+      res.json({ category, message: "Category successfully updated." });
+    } catch (error) {
       console.error(error);
-      if(error.code === 'P2002' && error.meta?.target?.includes('name')){
-        res.status(400).json({ error: 'This name is already used by another category.' });
+      if (error.code === "P2002" && error.meta?.target?.includes("name")) {
+        res
+          .status(409)
+          .json({ error: "This name is already used by another category." });
       }
-      res.status(500).json({ error: 'An error occurred while updating the category.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while updating the category." });
     }
   },
 
@@ -77,15 +89,19 @@ const CategoryController = {
     // Supprimez un Catégorie
     try {
       const { slug } = req.params;
-      const categorySlug = await prisma.category.findUnique({ where: { slug } });
-      if(!categorySlug){
-        return res.status(404).json({ error: 'Category not found.' });
+      const categorySlug = await prisma.category.findUnique({
+        where: { slug },
+      });
+      if (!categorySlug) {
+        return res.status(404).json({ error: "Category not found." });
       }
       const category = await prisma.category.delete({ where: { slug } });
-      res.json({ message: 'Category successfully deleted.' });
-    }catch (error) {
+      res.json({ message: "Category successfully deleted." });
+    } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'An error occurred while deleting the category.' });
+      res
+        .status(500)
+        .json({ error: "An error occurred while deleting the category." });
     }
   },
 };
