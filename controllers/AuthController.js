@@ -34,7 +34,6 @@ const AuthController = {
         .json({ error: "An error occurred while connected the user." });
     }
   },
-
   Logout: async (res) => {
     // Déconnectez l'utilisateur
     try {
@@ -72,7 +71,39 @@ const AuthController = {
         .json({ error: "An error occurred while retrieving the user." });
     }
   },
-  // Insciption: async (req, res) => {
+  UpUser: async (req, res) => {
+    // Récupérez les informations de l'utilisateur
+    try {
+      const { uuid } = req.params;
+      const { name, pseudo, email } = req.body;
+
+      const userUuid = await prisma.user.findFirst({ where: { uuid } });
+      if (!userUuid) {
+        return res.status(404).json({ error: "User not found." });
+      }
+
+      // const userEmail = await prisma.user.findFirst({ where: { email: email } });
+      // console.log(userEmail);
+      
+      const user = await prisma.user.update({
+        where: { uuid: userUuid.uuid },
+        data: { name, pseudo, email },
+      });
+      res.json({ user, message: "User updated successfully." });
+
+    } catch (error) {
+      console.error(error);
+      if (error.code === "P2002"){
+        return res
+          .status(409)
+          .json({ error: "This email or pseudo is already used by another user." });
+      }
+      return res
+        .status(500)
+        .json({ error: "An error occurred while updating the user." });
+    }
+  },
+  // Register: async (req, res) => {
   //   // Créez un utilisateur
   //   try {
   //     const { name, pseudo, email, password, image } = req.body;

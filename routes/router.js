@@ -16,6 +16,7 @@ const router = Router();
 router.post('/auth/login', AuthController.Login);
 router.post('/auth/logout', AuthenticateToken, AuthController.Logout);
 router.get('/auth/me', AuthenticateToken, AuthController.InfoUser);
+router.put('/auth/update/:uuid', AuthenticateToken, AuthController.UpUser);
 
 // Routes pour User
 router.get('/users', UserController.getAllUsers);
