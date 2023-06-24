@@ -52,11 +52,19 @@ const AuthController = {
     try {
       const userId = req.user.UserId;
       console.log(userId);
-      const user = await prisma.user.findUnique({ where: { id: userId } });
+      const user = await prisma.user.findUnique({ 
+        where: { id: userId },
+        include: { subscriptions: {
+          include: {
+            plan: true 
+            }
+          }
+        }, 
+      });
       if (!user) {
         return res.status(404).json({ error: "User not found." });
       }
-      res.json(user);
+      return res.status(200).json(user);
     } catch (error) {
       console.error(error);
       res
