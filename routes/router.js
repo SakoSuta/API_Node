@@ -8,7 +8,7 @@ const CategoryController = require('../controllers/CategoryController');
 const GameController = require('../controllers/GameController');
 const ContactController = require('../controllers/ContactController');
 const AuthController = require('../controllers/AuthController');
-const AuthenticateToken = require('../middleware/Auth');
+const AuthenticateToken = require('../middleware/auth');
 
 const router = Router();
 
