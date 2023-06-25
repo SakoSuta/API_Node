@@ -1,5 +1,5 @@
 const { Request, Response } = require("express");
-const { GenerateToken } = require("./sharedController");
+const { GenerateToken } = require("./SharedController");
 const { PrismaClient } = require("@prisma/client");
 const { hash, verify } = require("argon2");
 const { v4: uuidv4 } = require("uuid");
