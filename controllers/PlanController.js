@@ -8,7 +8,7 @@ const PlanController = {
   getAllPlans: async (req, res) => {
     // Récupérez tous les Plans dans la base de données
     try {
-      const plans = await prisma.plan.findMany();
+      const plans = await prisma.plan.findMany({ include: { category: true }});
       res.json(plans);
     } catch (error) {
       console.error(error);
@@ -22,7 +22,7 @@ const PlanController = {
     // Récupérez un Plan par son Slug
     try {
       const { slug } = req.params;
-      const plan = await prisma.plan.findUnique({ where: { slug } });
+      const plan = await prisma.plan.findUnique({ where: { slug }, include: { category: true } });
       if (!plan) {
         return res.status(404).json({ error: "Plan not found." });
       }
