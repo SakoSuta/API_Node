@@ -8,7 +8,7 @@ const CategoryController = {
   getAllCategories: async (req, res) => {
     // Récupérez tous les Catégories dans la base de données
     try {
-      const categories = await prisma.category.findMany();
+      const categories = await prisma.category.findMany({ include: { games: true }});
       res.json(categories);
     } catch (error) {
       console.error(error);
@@ -22,7 +22,7 @@ const CategoryController = {
     // Récupérez un Catégorie par son Slug
     try {
       const { slug } = req.params;
-      const category = await prisma.category.findUnique({ where: { slug } });
+      const category = await prisma.category.findUnique({ where: { slug }, include: { games: true } });
       if (!category) {
         return res.status(404).json({ error: "Category not found." });
       }

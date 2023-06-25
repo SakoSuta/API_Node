@@ -8,7 +8,7 @@ const GameController = {
   getAllGames: async (req, res) => {
     // Récupérez tous les Jeux dans la base de données
     try {
-      const games = await prisma.game.findMany();
+      const games = await prisma.game.findMany({ include: { category: true }});
       res.json(games);
     } catch (error) {
       console.error(error);
@@ -22,7 +22,7 @@ const GameController = {
     // Récupérez un Jeu par son Slug
     try {
       const { slug } = req.params;
-      const gameSlug = await prisma.game.findUnique({ where: { slug } });
+      const gameSlug = await prisma.game.findUnique({ where: { slug }, include: { category: true } });
       if (!gameSlug) {
         return res.status(404).json({ error: "Game not found." });
       }
@@ -38,7 +38,7 @@ const GameController = {
   createGame: async (req, res) => {
     // Créez un Jeu
     try {
-      const { name, image, dateSortie, developpement, edition, description } = req.body;
+      const { name, image, dateSortie, developpement, edition, description, category } = req.body;
       const CreatSlug = slugify(name);
       const game = await prisma.game.create({
         data: {
@@ -49,6 +49,11 @@ const GameController = {
           edition,
           description,
           slug: CreatSlug,
+          category: {
+            connect: category.map((categoryId) => ({
+              id: parseInt(categoryId),
+            })),
+          },
         },
       });
       res.json({ game, message: "Game successfully created." });
@@ -69,7 +74,7 @@ const GameController = {
     // Mettez à jour un Jeu
     try {
       const { slug } = req.params;
-      const { name, image, dateSortie, developpement, edition, description } = req.body;
+      const { name, image, dateSortie, developpement, edition, description, category } = req.body;
       CreatSlug = slugify(name);
 
       const gameSlug = await prisma.game.findUnique({ where: { slug } });
@@ -86,6 +91,11 @@ const GameController = {
           edition,
           description,
           slug: CreatSlug,
+          category: {
+            connect: category.map((categoryId) => ({
+              id: parseInt(categoryId),
+            })),
+          },
         },
       });
       res.json({ game, message: "Game successfully updated." });
