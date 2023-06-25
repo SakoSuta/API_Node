@@ -19,7 +19,7 @@ router.get('/auth/me', AuthenticateToken, AuthController.InfoUser);
 router.put('/auth/update/:uuid', AuthenticateToken, AuthController.UpUser);
 
 // Routes pour User
-router.get('/users', UserController.getAllUsers);
+router.get('/users', AuthenticateToken, UserController.getAllUsers);
 router.get('/users/:uuid', AuthenticateToken, UserController.getUserByUuid);
 router.post('/users', UserController.createUser);
 router.put('/users/:uuid', AuthenticateToken, UserController.updateUser);
@@ -54,16 +54,16 @@ router.put('/posts/:slug', AuthenticateToken, PostController.updatePost);
 router.delete('/posts/:slug', AuthenticateToken, PostController.deletePost);
 
 // Routes pour Category
-router.get('/categories', CategoryController.getAllCategories);
-router.get('/categories/:slug', CategoryController.getCategoryBySlug);
-router.post('/categories', CategoryController.createCategory);
-router.put('/categories/:slug', CategoryController.updateCategory);
-router.delete('/categories/:slug', CategoryController.deleteCategory);
+router.get('/categories', AuthenticateToken, CategoryController.getAllCategories);
+router.get('/categories/:slug', AuthenticateToken, CategoryController.getCategoryBySlug);
+router.post('/categories', AuthenticateToken, CategoryController.createCategory);
+router.put('/categories/:slug', AuthenticateToken, CategoryController.updateCategory);
+router.delete('/categories/:slug', AuthenticateToken, CategoryController.deleteCategory);
 
 // Routes pour Game
 router.get('/games', AuthenticateToken, GameController.getAllGames);
 router.get('/games/:slug', AuthenticateToken, GameController.getGameBySlug);
-router.post('/games', GameController.createGame);
+router.post('/games', AuthenticateToken, GameController.createGame);
 router.put('/games/:slug', AuthenticateToken, GameController.updateGame);
 router.delete('/games/:slug', AuthenticateToken, GameController.deleteGame);
 

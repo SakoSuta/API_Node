@@ -26,7 +26,7 @@ const GameController = {
       if (!gameSlug) {
         return res.status(404).json({ error: "Game not found." });
       }
-      res.json(game);
+      res.json(gameSlug);
     } catch (error) {
       console.error(error);
       res
@@ -38,11 +38,16 @@ const GameController = {
   createGame: async (req, res) => {
     // Créez un Jeu
     try {
-      const { name } = req.body;
+      const { name, image, dateSortie, developpement, edition, description } = req.body;
       const CreatSlug = slugify(name);
       const game = await prisma.game.create({
         data: {
           name,
+          image,
+          dateSortie,
+          developpement,
+          edition,
+          description,
           slug: CreatSlug,
         },
       });
@@ -64,8 +69,9 @@ const GameController = {
     // Mettez à jour un Jeu
     try {
       const { slug } = req.params;
-      const { name } = req.body;
+      const { name, image, dateSortie, developpement, edition, description } = req.body;
       CreatSlug = slugify(name);
+
       const gameSlug = await prisma.game.findUnique({ where: { slug } });
       if (!gameSlug) {
         return res.status(404).json({ error: "Game not found." });
@@ -74,6 +80,11 @@ const GameController = {
         where: { slug },
         data: {
           name,
+          image,
+          dateSortie,
+          developpement,
+          edition,
+          description,
           slug: CreatSlug,
         },
       });

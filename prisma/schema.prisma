@@ -85,6 +85,11 @@ model Category {
 model Game {
   id          Int     @id @default(autoincrement())
   name        String  @unique
+  image String?
+  dateSortie  DateTime
+  developpement   String
+  edition      String
+  description String  @db.VarChar(1000)
   slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
