@@ -50,7 +50,6 @@ const AuthController = {
     // Récupérez les informations de l'utilisateur
     try {
       const userId = req.user.UserId;
-      console.log(userId);
       const user = await prisma.user.findUnique({ 
         where: { id: userId },
         include: { subscriptions: {
