@@ -1,8 +1,15 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
+const io = require('@pm2/io');
 
 const app = express();
+
+io.init({
+  transactions: true,
+  http: true,
+});
+
 const router = require('./routes/router');
 
 // Les middlewares nécessaires
