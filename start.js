@@ -9,14 +9,14 @@ connect()
     .then(() => start('ecosystem.config.js'))
     .then(() => list())
     .then(processes => {
-        const yuniqApi = processes.find(p => p.name === 'yuniq-api');
+        const planetPlayApi = processes.find(p => p.name === 'planetPlay-api');
 
-        if (!yuniqApi) {
-            throw new Error('yuniq-api not found in PM2 processes');
+        if (!planetPlayApi) {
+            throw new Error('planetPlay-api not found in PM2 processes');
         }
 
         process.on('SIGINT', () => {
-            pm2.delete('yuniq-api', () => {
+            pm2.delete('planetPlay-api', () => {
                 pm2.disconnect();
                 process.exit();
             });
