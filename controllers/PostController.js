@@ -1,6 +1,3 @@
-// import { Request, Response } from "express";
-// import { PrismaClient } from "@prisma/client";
-
 const { Request, Response } = require("express");
 const { PrismaClient } = require("@prisma/client");
 
