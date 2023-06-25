@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  // relationMode = "prisma"
 }
 
 model User {
@@ -88,7 +89,7 @@ model Game {
   image String?
   dateSortie  DateTime
   developpement   String
-  edition      String
+  edition      String?
   description String  @db.VarChar(1000)
   slug        String   @unique
   createdAt   DateTime @default(now())

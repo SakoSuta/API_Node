@@ -76,6 +76,7 @@ const UserController = {
         // if(!mail){
         //     res.status(500).json({ error: 'An error occurred while sending the email.' });
         // }
+        console.log(user);
         res.json({ user, message: "User (Admin) successfully created." });
       } else {
         const user = await prisma.user.create({
