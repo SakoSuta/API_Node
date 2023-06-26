@@ -23,7 +23,7 @@ const AuthController = {
 
       const token = await GenerateToken(user);
       
-
+      console.log(token);
       return res
         .status(200)
         .json({ user, token, message: "Authentication successful." });
@@ -102,33 +102,40 @@ const AuthController = {
         .json({ error: "An error occurred while updating the user." });
     }
   },
-  // Register: async (req, res) => {
-  //   // Créez un utilisateur
-  //   try {
-  //     const { name, pseudo, email, password, image } = req.body;
-  //     const hashedPassword = await hash(password);
-  //     const uuid = uuidv4();
-  //     const user = await prisma.user.create({
-  //       data: {
-  //         uuid,
-  //         name,
-  //         pseudo,
-  //         email,
-  //         password: hashedPassword,
-  //         image,
-  //       },
-  //     });
-  //     const token = await GenerateToken(user);
-  //     return res
-  //       .status(201)
-  //       .json({ user, token, message: "User created successfully." });
-  //   } catch (error) {
-  //     console.error(error);
-  //     res
-  //       .status(500)
-  //       .json({ error: "An error occurred while creating the user." });
-  //   }
-  // }
+  Register: async (req, res) => {
+    // Créez un utilisateur
+    try {
+      const { name, pseudo, email, password } = req.body;
+      const hashedPassword = await hash(password);
+      const uuid = uuidv4();
+      const user = await prisma.user.create({
+        data: {
+          uuid,
+          name,
+          pseudo,
+          email,
+          password: hashedPassword,
+        },
+      });
+      const token = await GenerateToken(user);
+      
+      console.log(token);
+      return res
+        .status(201)
+        .json({ user, token, message: "User created successfully." });
+    } catch (error) {
+      console.error(error);
+      if (error.code === "P2002") {
+        res
+          .status(409)
+          .json({ error: "This email is already used by another user." });
+      } else {
+        res
+          .status(500)
+          .json({ error: "An error occurred while creating the user." });
+      }
+    }
+  }
 };
 
 

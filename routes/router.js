@@ -13,6 +13,7 @@ const AuthenticateToken = require('../middleware/auth');
 const router = Router();
 
 // Routes pour Auth
+router.post('/auth/register', AuthController.Register);
 router.post('/auth/login', AuthController.Login);
 router.post('/auth/logout', AuthenticateToken, AuthController.Logout);
 router.get('/auth/me', AuthenticateToken, AuthController.InfoUser);
@@ -21,7 +22,7 @@ router.put('/auth/update/:uuid', AuthenticateToken, AuthController.UpUser);
 // Routes pour User
 router.get('/users', AuthenticateToken, UserController.getAllUsers);
 router.get('/users/:uuid', AuthenticateToken, UserController.getUserByUuid);
-router.post('/users', UserController.createUser);
+router.post('/users', AuthenticateToken, UserController.createUser);
 router.put('/users/:uuid', AuthenticateToken, UserController.updateUser);
 router.delete('/users/:uuid', AuthenticateToken, UserController.deleteUser);
 
