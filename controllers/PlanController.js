@@ -72,7 +72,7 @@ const PlanController = {
       const { name, price, category } = req.body;
       const planSlug = await prisma.plan.findUnique({ where: { slug } });
       if (!planSlug) {
-        res.status(404).json({ error: "Plan not found." });
+        return res.status(404).json({ error: "Plan not found." });
       }
       const CreatSlug = slugify(name);
       const plan = await prisma.plan.update({
@@ -108,7 +108,7 @@ const PlanController = {
       const { slug } = req.params;
       const planSlug = await prisma.plan.findUnique({ where: { slug } });
       if (!planSlug) {
-        res.status(404).json({ error: "Plan not found." });
+        return res.status(404).json({ error: "Plan not found." });
       }
       const plan = await prisma.plan.delete({ where: { slug } });
       res.json({ plan, message: "Plan successfully deleted." });

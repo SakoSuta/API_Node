@@ -88,7 +88,7 @@ const SubscriptionsController = {
       const { uuid } = req.params;
       const SubUuid = await prisma.subscriptions.findUnique({ where: { uuid }, include: { user: true, plan: true } });
       if (!SubUuid) {
-        res.status(404).json({ error: 'Subscription not found.' });
+        return res.status(404).json({ error: 'Subscription not found.' });
       }
       const mail = await ConfimeUnsub(SubUuid);
       if(mail)
