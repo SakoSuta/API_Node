@@ -8,7 +8,7 @@ const PostController = {
   getAllPosts: async (req, res) => {
     // Récupérez tous les Posts dans la base de données
     try {
-      const post = await prisma.post.findMany();
+      const post = await prisma.post.findMany({ include: { author: true } });
       res.json(post);
     } catch (error) {
       console.error(error);
